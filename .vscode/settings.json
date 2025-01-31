@@ -11,6 +11,9 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "editor.formatOnSave": "always",
+    "source.organizeImports": "always",
+    "source.sortImports": "always",
+    "source.fixAll": "always"
   }
 }
