@@ -1,7 +1,6 @@
 "use client";
 
-import { Flex, Group, Textarea, Text, Button } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
+import { Button, Flex, Group, Text, Textarea } from "@mantine/core";
 import {
   Dropzone,
   IMAGE_MIME_TYPE,
@@ -11,11 +10,10 @@ import {
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
-import { s3Client } from "@/utils/a3";
-import * as crypto from "crypto";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
 
-function OneTimeSharePage() {
+function UploadForm() {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -23,31 +21,26 @@ function OneTimeSharePage() {
     },
   });
 
-  console.log(process.env.NEXT_PUBLIC_AWS_REGION!)
+  const objectMutation = useMutation({
+    mutationFn: (values: { text: string }) => {
+      return fetch("/api/s3", {
+        method: "PUT",
+        body: JSON.stringify(values),
+      });
+    },
+  });
 
-  const handleSubmit = async (values: { text: string }) => {
-    const input = {
-      Body: values.text,
-      Bucket: process.env.NEXT_PUBLIC_S3_BUCKET!,
-      Key: "1234",
-      ContentType: 'text/plain'
-    };
-
-    const command = new PutObjectCommand(input);
-
-    const response = await s3Client.send(command);
-
-    console.log(response);
+  const handleSubmit = (values: { text: string }) => {
+    objectMutation.mutate(values);
   };
 
   return (
-    <form onSubmit={form.onSubmit(async (values) => await handleSubmit(values))}>
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
         <Textarea
-          label="Input label"
-          description="Input description"
-          placeholder="Input placeholder"
+          label="Your message"
           className="w-9/12"
+          placeholder="text..."
           key={form.key("text")}
           {...form.getInputProps("text")}
         />
@@ -93,4 +86,4 @@ function OneTimeSharePage() {
   );
 }
 
-export default OneTimeSharePage;
+export default UploadForm;

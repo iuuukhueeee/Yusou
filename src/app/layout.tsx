@@ -1,9 +1,10 @@
+import { createTheme, MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
-import { createTheme, MantineProvider } from "@mantine/core";
+import { ReactQueryClientProvider } from "@/app/components/react-query-client-provider";
 
 const theme = createTheme({});
 
@@ -29,10 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ReactQueryClientProvider>
+          <MantineProvider theme={theme}>{children}</MantineProvider>
+        </ReactQueryClientProvider>
       </body>
     </html>
   );
