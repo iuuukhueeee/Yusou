@@ -1,10 +1,10 @@
+import { ReactQueryClientProvider } from "@/app/components/react-query-client-provider";
 import { createTheme, MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
+import "@mantine/dropzone/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "@mantine/core/styles.css";
-import "@mantine/dropzone/styles.css";
-import { ReactQueryClientProvider } from "@/app/components/react-query-client-provider";
 
 const theme = createTheme({});
 
