@@ -6,11 +6,11 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request: Request) {
   try {
-    const { text } = await request.json();
+    const { text, objectKey } = await request.json();
     const input = {
       Body: text,
       Bucket: process.env.S3_BUCKET,
-      Key: "1234",
+      Key: objectKey,
       ContentType: "text/plain",
     };
 
@@ -20,6 +20,7 @@ export async function PUT(request: Request) {
 
     return NextResponse.json({ response });
   } catch (error) {
+    console.error(error)
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }

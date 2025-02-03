@@ -11,7 +11,7 @@ import {
 } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 function UploadForm() {
   const form = useForm({
@@ -22,7 +22,7 @@ function UploadForm() {
   });
 
   const objectMutation = useMutation({
-    mutationFn: (values: { text: string }) => {
+    mutationFn: async (values: { text: string; objectKey: string }) => {
       return fetch("/api/s3", {
         method: "PUT",
         body: JSON.stringify(values),
@@ -30,12 +30,23 @@ function UploadForm() {
     },
   });
 
-  const handleSubmit = (values: { text: string }) => {
-    objectMutation.mutate(values);
+  const { refetch } = useQuery({
+    queryKey: ["/uuid/get"],
+    queryFn: async () => {
+      const response = await fetch("/api/uuid", { method: "GET" });
+      return response.json();
+    },
+    enabled: false, // Disable automatic fetching
+  });
+
+  const handleSubmit = async (values: { text: string }) => {
+    const { data } = await refetch();
+
+    objectMutation.mutate({ text: values.text, objectKey: data.data });
   };
 
   return (
-    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+    <form onSubmit={form.onSubmit(async (values) => await handleSubmit(values))}>
       <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
         <Textarea
           label="Your message"
