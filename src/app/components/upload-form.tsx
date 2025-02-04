@@ -10,6 +10,7 @@ import {
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -42,7 +43,13 @@ function UploadForm() {
   const handleSubmit = async (values: { text: string }) => {
     const { data } = await refetch();
 
-    objectMutation.mutate({ text: values.text, objectKey: data.data });
+    objectMutation.mutateAsync({ text: values.text, objectKey: data.data });
+
+    form.setFieldValue("text", "");
+
+    notifications.show({
+      message: "Upload completed!",
+    });
   };
 
   return (
