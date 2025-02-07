@@ -31,6 +31,15 @@ function UploadForm() {
     },
   });
 
+  const dbMutation = useMutation({
+    mutationFn: async (values: { objectKey: string }) => {
+      return fetch("/api/share", {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+    },
+  });
+
   const { refetch } = useQuery({
     queryKey: ["/uuid/get"],
     queryFn: async () => {
@@ -44,6 +53,7 @@ function UploadForm() {
     const { data } = await refetch();
 
     objectMutation.mutateAsync({ text: values.text, objectKey: data.data });
+    dbMutation.mutateAsync({ objectKey: data.data });
 
     form.setFieldValue("text", "");
 
