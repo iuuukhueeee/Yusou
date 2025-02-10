@@ -1,10 +1,15 @@
 "use client";
 
+import ReceiveForm from "@/app/components/receive-form";
 import UploadForm from "@/app/components/upload-form";
+import { Stack } from "@mantine/core";
 
 export default function Home() {
   return (
-    <UploadForm />
+    <Stack>
+      <UploadForm />
+      <ReceiveForm />
+    </Stack>
     // <div className="mx-auto max-w-sm space-y-6">
     //   <div className="space-y-2 text-center">
     //     <h1 className="text-3xl font-bold">Login</h1>
