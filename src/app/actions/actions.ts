@@ -1,5 +1,23 @@
 "use server";
 
-export async function getData(formData: FormData) {
-  console.log(formData.get("code"));
+import { createClient } from "@/utils/supabase/server";
+
+export async function getData(code: string) {
+  try {
+    if (code == null) throw Error("Code is missing");
+
+    const supabase = await createClient();
+
+    const { data } = await supabase.from("shares").select("*").eq("otp_code", String(code)).maybeSingle();
+
+    const res = await fetch('http://localhost:3000/api/s3?' + new URLSearchParams({
+      objectKey: data?.object_key
+    }).toString())
+
+    const resJson = await res.json()
+
+    return resJson;
+  } catch (error) {
+    throw error;
+  }
 }

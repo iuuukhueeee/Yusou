@@ -40,7 +40,7 @@ function UploadForm() {
     },
   });
 
-  const { refetch } = useQuery({
+  const { refetch: getUUID } = useQuery({
     queryKey: ["/uuid/get"],
     queryFn: async () => {
       const response = await fetch("/api/uuid", { method: "GET" });
@@ -50,7 +50,7 @@ function UploadForm() {
   });
 
   const handleSubmit = async (values: { text: string }) => {
-    const { data } = await refetch();
+    const { data } = await getUUID();
 
     objectMutation.mutateAsync({ text: values.text, objectKey: data.data });
     dbMutation.mutateAsync({ objectKey: data.data });
