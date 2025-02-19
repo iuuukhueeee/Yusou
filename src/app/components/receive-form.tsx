@@ -26,7 +26,7 @@ function ReceiveForm() {
     const values = form.getValues()
 
     const res = await getData(values.code)
-    if (res) setText(res.response)
+    if (res) setText(res)
   }
 
   return (

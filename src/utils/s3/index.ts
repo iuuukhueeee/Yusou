@@ -9,7 +9,7 @@ export const s3Client = new S3Client({
 })
 
 export const getObject = (bucket: string, key: string) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise<string>(async (resolve, reject) => {
     const getObjectCommand = new GetObjectCommand({ Bucket: bucket, Key: key })
 
     try {
