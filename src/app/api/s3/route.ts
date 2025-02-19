@@ -1,49 +1,46 @@
-"use server";
+"use server"
 
-import { s3Client } from "@/utils/s3";
-import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import { NextRequest, NextResponse } from "next/server";
+import { getObject, s3Client } from "@/utils/s3"
+import { PutObjectCommand } from "@aws-sdk/client-s3"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function PUT(request: Request) {
   try {
-    const { text, objectKey } = await request.json();
+    const { text, objectKey } = await request.json()
     const input = {
       Body: text,
       Bucket: process.env.S3_BUCKET,
       Key: objectKey,
       ContentType: "text/plain",
-    };
+    }
 
-    const command = new PutObjectCommand(input);
+    const command = new PutObjectCommand(input)
 
-    const response = await s3Client.send(command);
+    const response = await s3Client.send(command)
 
-    return NextResponse.json({ response });
+    return NextResponse.json({ response })
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: error }, { status: 500 });
+    console.error(error)
+    return NextResponse.json({ error: error }, { status: 500 })
   }
 }
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const objectKey = searchParams.get('objectKey')
+    const objectKey = searchParams.get("objectKey")
     if (objectKey) {
-      const input = {
-        Bucket: process.env.S3_BUCKET,
-        Key: objectKey,
-      }
+      // const input = {
+      //   Bucket: process.env.S3_BUCKET,
+      //   Key: objectKey,
+      // }
 
-      const command = new GetObjectCommand(input);
+      // const command = new GetObjectCommand(input)
 
-      const response = await s3Client.send(command);
-      console.log(response)
+      const response = await getObject(process.env.S3_BUCKET!, objectKey)
       return NextResponse.json({ response })
-
     }
-
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 })
   }
 }

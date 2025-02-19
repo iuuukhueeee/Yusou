@@ -1,16 +1,16 @@
-import { getData } from "@/app/actions/actions";
-import { Button, Flex, Text, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { FormEvent, useState } from "react";
+import { getData } from "@/app/actions/actions"
+import { Button, Flex, Text, TextInput } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { FormEvent, useState } from "react"
 
 function ReceiveForm() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState("")
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
       code: "",
     },
-  });
+  })
 
   // const query = useQuery({
   //   queryKey: ["code", 123],
@@ -22,12 +22,12 @@ function ReceiveForm() {
   // });
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const values = form.getValues();
+    e.preventDefault()
+    const values = form.getValues()
 
-    const res = await getData(values.code);
-    if (res) console.log(res);
-  };
+    const res = await getData(values.code)
+    if (res) setText(res.response)
+  }
 
   return (
     <form onSubmit={async (e) => await handleSubmit(e)}>
@@ -46,7 +46,7 @@ function ReceiveForm() {
         <Text>{text}</Text>
       </Flex>
     </form>
-  );
+  )
 }
 
-export default ReceiveForm;
+export default ReceiveForm
