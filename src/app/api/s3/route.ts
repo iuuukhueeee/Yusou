@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
       // const command = new GetObjectCommand(input)
 
-      const response = await getObject(process.env.S3_BUCKET!, objectKey)
+      const response = await getObject(process.env.S3_BUCKET ?? "", objectKey)
       return NextResponse.json({ response })
     }
   } catch (error) {
