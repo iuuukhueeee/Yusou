@@ -2,10 +2,10 @@ import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3" // ES Modules im
 
 export const s3Client = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "",
   },
-  region: process.env.AWS_REGION!,
+  region: process.env.AWS_REGION ?? "",
 })
 
 export const getObject = (bucket: string, key: string) => {
@@ -14,14 +14,11 @@ export const getObject = (bucket: string, key: string) => {
 
     try {
       const response = await s3Client.send(getObjectCommand)
-      const responseDataChunks = []
 
       if (response.Body) {
-        response.Body.once("error", (err) => reject(err))
-
-        response.Body.on("data", (chunk) => responseDataChunks.push(chunk))
-
-        response.Body.once("end", () => resolve(responseDataChunks.join("")))
+        const bodyStream = response.Body
+        const bodyAsString = await bodyStream.transformToString()
+        resolve(bodyAsString)
       }
     } catch (error) {
       return reject(error)
