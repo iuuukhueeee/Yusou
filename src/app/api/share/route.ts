@@ -18,10 +18,10 @@ export async function POST(request: NextRequest) {
       })
       .select();
 
-    console.log(data);
+    // console.log(data);
 
     if (error) throw error;
-    return NextResponse.json({ data: data });
+    return NextResponse.json({ data });
   } catch (error) {
     return NextResponse.json({ error: error });
   }
