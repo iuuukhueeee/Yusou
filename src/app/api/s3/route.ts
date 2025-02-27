@@ -1,24 +1,48 @@
-"use server"
+'use server'
 
-import { getObject, s3Client } from "@/utils/s3"
-import { PutObjectCommand } from "@aws-sdk/client-s3"
-import { NextRequest, NextResponse } from "next/server"
+import { getObject, s3Client } from '@/utils/s3'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
-    const { text, objectKey } = await request.json()
-    const input = {
-      Body: text,
-      Bucket: process.env.S3_BUCKET,
-      Key: objectKey,
-      ContentType: "text/plain",
+    const promises = []
+    const form = await request.formData()
+
+    const data = form.get('data')
+    const objectKey = form.get('objectKey')
+
+    if (data && data instanceof File) {
+      // Body accepts Uint8Array<ArrayBufferLike>
+      const input = {
+        Body: await new Blob([data], {
+          type: data.type,
+        }).bytes(),
+        Bucket: process.env.S3_BUCKET,
+        Key: `${objectKey}/${data.name}`,
+      }
+
+      const command = new PutObjectCommand(input)
+
+      const response = await s3Client.send(command)
+      promises.push(response)
     }
 
-    const command = new PutObjectCommand(input)
+    if (data && typeof data === 'string') {
+      const input = {
+        Body: data,
+        Bucket: process.env.S3_BUCKET,
+        Key: `${objectKey}/text`,
+      }
 
-    const response = await s3Client.send(command)
+      const command = new PutObjectCommand(input)
 
-    return NextResponse.json({ response })
+      const response = await s3Client.send(command)
+      promises.push(response)
+    }
+
+    await Promise.all(promises)
+    return NextResponse.json({ data: 'ok' })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: error }, { status: 500 })
@@ -28,16 +52,9 @@ export async function PUT(request: Request) {
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const objectKey = searchParams.get("objectKey")
+    const objectKey = searchParams.get('objectKey')
     if (objectKey) {
-      // const input = {
-      //   Bucket: process.env.S3_BUCKET,
-      //   Key: objectKey,
-      // }
-
-      // const command = new GetObjectCommand(input)
-
-      const response = await getObject(process.env.S3_BUCKET ?? "", objectKey)
+      const response = await getObject(process.env.S3_BUCKET ?? '', objectKey)
       return NextResponse.json({ response })
     }
   } catch (error) {
