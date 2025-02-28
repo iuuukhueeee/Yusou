@@ -52,7 +52,7 @@ function Dropbox({ files, setFiles }: Props) {
         ]}
         className="w-9/12"
       >
-        <Group style={{ pointerEvents: "none" }}>
+        <Group style={{ pointerEvents: 'none' }}>
           <Dropzone.Accept>
             <IconUpload size={52} color="var(--mantine-color-blue-6)" stroke={1.5} />
           </Dropzone.Accept>
@@ -73,7 +73,7 @@ function Dropbox({ files, setFiles }: Props) {
           </div>
         </Group>
       </Dropzone>
-      {previews}
+      <Stack justify="center">{previews}</Stack>
     </>
   )
 }
