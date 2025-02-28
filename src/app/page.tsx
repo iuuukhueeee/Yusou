@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import ReceiveForm from "@/app/components/receive-form";
-import UploadForm from "@/app/components/upload-form";
-import { Stack } from "@mantine/core";
+import ReceiveForm from '@/app/components/receive-form'
+import UploadForm from '@/app/components/upload-form'
+import { Stack } from '@mantine/core'
 
 export default function Home() {
   return (
-    <Stack>
+    <Stack my="lg">
       <UploadForm />
       <ReceiveForm />
     </Stack>
@@ -34,7 +34,7 @@ export default function Home() {
     //     </div>
     //   </div>
     // </div>
-  );
+  )
 }
 
 // function ChromeIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
