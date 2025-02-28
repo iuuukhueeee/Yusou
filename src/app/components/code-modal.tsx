@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Modal, Text } from "@mantine/core"
+import { Modal, Text } from '@mantine/core'
 
 interface Props {
   opened: boolean
@@ -10,7 +10,7 @@ interface Props {
 
 function CodeModal({ opened, close, code }: Props) {
   return (
-    <Modal opened={opened} onClose={close}>
+    <Modal opened={opened} onClose={close} centered>
       <Text>Your code is: {code}</Text>
     </Modal>
   )
