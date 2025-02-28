@@ -1,32 +1,23 @@
-import { getData } from "@/app/actions/actions"
-import { Button, Flex, Text, TextInput } from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { FormEvent, useState } from "react"
+import { getData } from '@/app/actions/actions'
+import { Button, Flex, Text, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { FormEvent, useState } from 'react'
 
 function ReceiveForm() {
-  const [text, setText] = useState("")
+  const [data, setData] = useState<string[]>([])
   const form = useForm({
-    mode: "uncontrolled",
+    mode: 'uncontrolled',
     initialValues: {
-      code: "",
+      code: '',
     },
   })
-
-  // const query = useQuery({
-  //   queryKey: ["code", 123],
-  //   queryFn: async () => {
-  //     const url = new URL("/api/share");
-  //     url.searchParams.append("code", form.getValues().code);
-  //     return fetch(url);
-  //   },
-  // });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const values = form.getValues()
 
     const res = await getData(values.code)
-    if (res) setText(res)
+    if (res) setData(res)
   }
 
   return (
@@ -37,13 +28,15 @@ function ReceiveForm() {
           label="Code"
           className="w-9/12"
           placeholder="code..."
-          key={form.key("code")}
-          {...form.getInputProps("code")}
+          key={form.key('code')}
+          {...form.getInputProps('code')}
         />
         <Button className="m-auto w-9/12" type="submit" color="yellow">
           Get 🚚
         </Button>
-        <Text>{text}</Text>
+        {data.map((elm, index) => (
+          <Text key={index}>{elm}</Text>
+        ))}
       </Flex>
     </form>
   )
