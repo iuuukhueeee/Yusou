@@ -10,7 +10,7 @@ interface Props {
 
 function CodeModal({ opened, close, code }: Props) {
   return (
-    <Modal opened={opened} onClose={close} centered>
+    <Modal opened={opened} onClose={close} centered closeOnClickOutside={false}>
       <Text>Your code is: {code}</Text>
     </Modal>
   )
