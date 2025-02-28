@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   Dropzone,
@@ -8,11 +8,13 @@ import {
   MS_POWERPOINT_MIME_TYPE,
   MS_WORD_MIME_TYPE,
   PDF_MIME_TYPE,
-} from "@mantine/dropzone"
+} from '@mantine/dropzone'
 
-import { Group, Text } from "@mantine/core"
-import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react"
-import Image from "next/image"
+import { isValidImageMimeType } from '@/utils/core'
+import { Group, Stack, Text } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
+import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react'
+import Image from 'next/image'
 
 interface Props {
   files: FileWithPath[]
@@ -21,7 +23,7 @@ interface Props {
 
 function Dropbox({ files, setFiles }: Props) {
   const previews = files.map((file, index) => {
-    if (IMAGE_MIME_TYPE.includes(file.type)) {
+    if (isValidImageMimeType(file.type)) {
       const imageUrl = URL.createObjectURL(file)
       return (
         <Image
@@ -41,7 +43,7 @@ function Dropbox({ files, setFiles }: Props) {
     <>
       <Dropzone
         onDrop={setFiles}
-        onReject={(files) => console.log("rejected files", files)}
+        onReject={() => notifications.show({ message: 'Invalid files' })}
         maxSize={5 * 1024 ** 2}
         accept={[
           ...IMAGE_MIME_TYPE,
