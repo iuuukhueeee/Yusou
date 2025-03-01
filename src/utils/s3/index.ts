@@ -1,5 +1,6 @@
-import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3' // ES Modules import
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { ResponseLink } from '@/types';
+import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3'; // ES Modules import
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export const s3Client = new S3Client({
   credentials: {
@@ -28,23 +29,24 @@ export const getObject = (bucket: string, key: string) => {
 }
 
 export const listObjects = (bucket: string, key: string) => {
-  return new Promise<string[]>(async (resolve, reject) => {
+  return new Promise<ResponseLink[]>(async (resolve, reject) => {
     const listObjectsCommand = new ListObjectsV2Command({ Bucket: bucket, Prefix: key })
 
     try {
       const response = await s3Client.send(listObjectsCommand)
-      console.log(response)
-      const names: string[] = []
+      const names: ResponseLink[] = []
 
       if (response.KeyCount && response.KeyCount > 0) {
         response.Contents?.forEach((obj) => {
-          if (obj && obj.Key) names.push(obj.Key)
+          if (obj && obj.Key) names.push({ objectKey: obj.Key, presignedLink: '' })
         })
       }
 
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < names.length; i++) {
-        const getObjectCommand = new GetObjectCommand({ Bucket: bucket, Key: names[i] })
-        names[i] = await generatePresignedUrl(s3Client, getObjectCommand)
+        const getObjectCommand = new GetObjectCommand({ Bucket: bucket, Key: names[i].objectKey })
+        names[i].presignedLink = await generatePresignedUrl(s3Client, getObjectCommand)
+        names[i].objectKey = names[i].objectKey.split('/')[1]
       }
 
       resolve(names)

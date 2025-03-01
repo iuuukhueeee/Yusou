@@ -1,10 +1,11 @@
 import { getData } from '@/app/actions/actions'
-import { Button, Flex, Text, TextInput } from '@mantine/core'
+import { ResponseLink } from '@/types'
+import { Anchor, Button, Flex, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { FormEvent, useState } from 'react'
 
 function ReceiveForm() {
-  const [data, setData] = useState<string[]>([])
+  const [data, setData] = useState<ResponseLink[]>([])
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -35,7 +36,9 @@ function ReceiveForm() {
           Get 🚚
         </Button>
         {data.map((elm, index) => (
-          <Text key={index}>{elm}</Text>
+          <Anchor key={index} href={elm.presignedLink}>
+            {elm.objectKey}
+          </Anchor>
         ))}
       </Flex>
     </form>
