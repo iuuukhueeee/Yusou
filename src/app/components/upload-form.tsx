@@ -16,6 +16,7 @@ function UploadForm() {
   const [opened, { open, close }] = useDisclosure(false)
   const [code, setCode] = useState<string>('')
   const [files, setFiles] = useState<FileWithPath[]>([])
+  const [loading, { open: openLoading, close: closeLoading }] = useDisclosure()
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -56,38 +57,51 @@ function UploadForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    // generate a new UUID via API
-    const { data: uuid } = await getUUID()
+    openLoading()
 
-    const text = form.getValues().text
+    try {
+      const text = form.getValues().text
 
-    files.forEach(async (file) => {
-      await objectMutation.mutateAsync({
-        data: file,
-        objectKey: uuid.data,
+      if (text.length == 0 && files.length == 0) {
+        notifications.show({
+          message: 'Nothing to upload.',
+        })
+        return
+      }
+
+      // generate a new UUID via API
+      const { data: uuid } = await getUUID()
+
+      files.forEach(async (file) => {
+        await objectMutation.mutateAsync({
+          data: file,
+          objectKey: uuid.data,
+        })
       })
-    })
 
-    if (text.length > 0) {
-      await objectMutation.mutateAsync({
-        data: text,
-        objectKey: uuid.data,
+      if (text.length > 0) {
+        await objectMutation.mutateAsync({
+          data: text,
+          objectKey: uuid.data,
+        })
+      }
+
+      const response = await dbMutation.mutateAsync({ objectKey: uuid.data })
+      const { data: shares } = await response.json()
+
+      if (shares) {
+        setCode(shares.at(0).otp_code)
+        open()
+      }
+
+      form.setFieldValue('text', '')
+
+      notifications.show({
+        message: 'Upload completed!',
       })
+    } finally {
+      closeLoading()
     }
-
-    const response = await dbMutation.mutateAsync({ objectKey: uuid.data })
-    const { data: shares } = await response.json()
-
-    if (shares) {
-      setCode(shares.at(0).otp_code)
-      open()
-    }
-
-    form.setFieldValue('text', '')
-
-    notifications.show({
-      message: 'Upload completed!',
-    })
   }
 
   return (
@@ -103,7 +117,7 @@ function UploadForm() {
             {...form.getInputProps('text')}
           />
           <Dropbox files={files} setFiles={setFiles} />
-          <Button className="m-auto w-9/12" type="submit" onClick={handleSubmit}>
+          <Button className="m-auto w-9/12" type="submit" onClick={handleSubmit} loading={loading}>
             Go 🚚
           </Button>
         </Flex>
