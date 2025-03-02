@@ -44,7 +44,7 @@ function Dropbox({ files, setFiles }: Props) {
       <Dropzone
         onDrop={setFiles}
         onReject={() => notifications.show({ message: 'Invalid files' })}
-        maxSize={5 * 1024 ** 2}
+        maxSize={200 * 1024 ** 2}
         accept={[
           ...IMAGE_MIME_TYPE,
           ...PDF_MIME_TYPE,
@@ -70,7 +70,7 @@ function Dropbox({ files, setFiles }: Props) {
               Drag images here or click to select files
             </Text>
             <Text size="sm" c="dimmed" inline mt={7}>
-              Attach as many files as you like, each file should not exceed 5mb
+              Attach as many files as you like, each file should not exceed 200mb
             </Text>
           </div>
         </Group>
