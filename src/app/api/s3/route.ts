@@ -32,7 +32,8 @@ export async function PUT(request: NextRequest) {
       const input = {
         Body: data,
         Bucket: process.env.S3_BUCKET,
-        Key: `${objectKey}/text`,
+        'Content-Type': 'plain/text',
+        Key: `${objectKey}/text.txt`,
       }
 
       const command = new PutObjectCommand(input)
