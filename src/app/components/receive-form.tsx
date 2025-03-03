@@ -1,3 +1,5 @@
+'use client'
+
 import { getData } from '@/app/actions/actions'
 import { ResponseLink } from '@/types'
 import { Anchor, Button, Flex, TextInput } from '@mantine/core'

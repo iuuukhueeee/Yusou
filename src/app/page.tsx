@@ -1,5 +1,3 @@
-'use client'
-
 import ReceiveForm from '@/app/components/receive-form'
 import UploadForm from '@/app/components/upload-form'
 import { Stack } from '@mantine/core'
