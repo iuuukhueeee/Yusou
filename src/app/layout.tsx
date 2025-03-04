@@ -42,6 +42,7 @@ export default function RootLayout({
         </ReactQueryClientProvider>
       </body>
       <Script defer src="/stats/script.js" data-website-id="185eb7e0-e507-4fd1-9fb6-f37de3c53a6d" />
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer async />
     </html>
   )
 }
