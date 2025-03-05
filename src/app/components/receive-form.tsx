@@ -2,7 +2,7 @@
 
 import { getData } from '@/app/actions/actions'
 import { ResponseLink } from '@/types'
-import { Anchor, Button, Flex, TextInput } from '@mantine/core'
+import { Anchor, Button, Flex, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
@@ -37,26 +37,30 @@ function ReceiveForm() {
   }
 
   return (
-    <form onSubmit={async (e) => await handleSubmit(e)}>
-      <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap">
-        <TextInput
-          name="code"
-          label="Code"
-          className="w-9/12"
-          placeholder="code..."
-          key={form.key('code')}
-          {...form.getInputProps('code')}
-        />
-        <Button className="m-auto w-9/12" type="submit" color="yellow" loading={loading}>
-          Get 🚚
-        </Button>
+    <>
+      <form onSubmit={async (e) => await handleSubmit(e)} method="POST">
+        <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap">
+          <TextInput
+            name="code"
+            label="Code"
+            className="w-9/12"
+            placeholder="code..."
+            key={form.key('code')}
+            {...form.getInputProps('code')}
+          />
+          <Button className="m-auto w-9/12" type="submit" color="yellow" loading={loading}>
+            Get 🚚
+          </Button>
+        </Flex>
+      </form>
+      <Stack h={300} bg="var(--mantine-color-body)" gap="md" mx={20}>
         {data.map((elm, index) => (
-          <Anchor key={index} href={elm.presignedLink}>
+          <Anchor key={index} href={elm.presignedLink} truncate="end">
             {elm.objectKey}
           </Anchor>
         ))}
-      </Flex>
-    </form>
+      </Stack>
+    </>
   )
 }
 
