@@ -20,4 +20,4 @@ With Yusou, you can:
 
 # Motivation
 
-I always love open-source software, and I'm a huge believer that OSS can make someone's life better so I take proud for what I built. That is why Yusou is and will be always completely free, life is hard enough. At least, I want to change someone's life even if it is just a small thing.
+I always love open-source software, I take proud for what I built because I'm a huge believer that OSS can make someone's life better. That is why Yusou is and will be always completely free, life is hard enough. At least, I want to change someone's life even if it was just a small thing.
