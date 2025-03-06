@@ -1,13 +1,9 @@
-import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import crypto from "crypto";
+import { IMAGE_MIME_TYPE } from '@mantine/dropzone'
+import crypto from 'crypto'
 
 export const generate_otp = () => {
-  const array = new Uint16Array(1);
-  crypto.getRandomValues(array);
-
-  return array[0].toString();
-};
-
+  return crypto.randomInt(100000, 999999).toString()
+}
 
 type ValidImageMimeType = (typeof IMAGE_MIME_TYPE)[number]
 
