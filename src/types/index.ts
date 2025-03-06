@@ -1,4 +1,8 @@
 export interface ResponseLink {
-  objectKey: string,
+  objectKey: string
   presignedLink: string
+  additionalInfo?: {
+    message: string
+    status: number
+  }
 }

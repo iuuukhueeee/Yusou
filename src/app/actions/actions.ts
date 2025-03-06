@@ -1,28 +1,44 @@
 'use server'
 
+import { ResponseLink } from '@/types'
 import { listObjects } from '@/utils/s3'
 import { createClient } from '@/utils/supabase/server'
 import { headers } from 'next/headers'
 
-export async function getData(code: string) {
+export async function getData(code: string, turnstileRes: string) {
   try {
-    if (code == null) throw Error('Code is missing')
+    if (!code || !turnstileRes) throw Error('Code is missing')
 
-    const supabase = await createClient()
+    const outcome = await verifySite(turnstileRes)
 
-    const { data } = await supabase
-      .from('shares')
-      .select('*')
-      .eq('otp_code', String(code))
-      .maybeSingle()
+    console.log(outcome)
+    if (outcome.success) {
+      const supabase = await createClient()
 
-    if (data && data.object_key) {
-      // const response = await getObject(process.env.S3_BUCKET ?? "", data.object_key)
-      const response = await listObjects(process.env.S3_BUCKET ?? '', data.object_key)
-      return response
+      const { data } = await supabase
+        .from('shares')
+        .select('*')
+        .eq('otp_code', String(code))
+        .maybeSingle()
+
+      if (data && data.object_key) {
+        // const response = await getObject(process.env.S3_BUCKET ?? "", data.object_key)
+        const response = await listObjects(process.env.S3_BUCKET ?? '', data.object_key)
+        return response
+      }
     }
 
-    throw Error('Missing object key')
+    if (!outcome.success) {
+      const names: ResponseLink[] = []
+      names.push({
+        objectKey: '',
+        presignedLink: '',
+        additionalInfo: { message: 'Captcha challenges does not pass', status: 400 },
+      })
+      return names
+    }
+
+    throw Error('Not found associated otp code or object key')
   } catch (error) {
     throw error
   }

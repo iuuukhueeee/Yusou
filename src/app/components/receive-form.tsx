@@ -20,6 +20,9 @@ function ReceiveForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const turnstileRes = formData.get('cf-turnstile-response') as string
+
     openLoading()
 
     try {
@@ -29,8 +32,14 @@ function ReceiveForm() {
         return
       }
 
-      const res = await getData(code)
-      if (res) setData(res)
+      const res = await getData(code, turnstileRes)
+      if (res) {
+        if (res.length === 1 && res[0].additionalInfo) {
+          if (res[0].additionalInfo) {
+            notifications.show({ message: res[0].additionalInfo.message })
+          }
+        } else setData(res)
+      }
     } finally {
       closeLoading()
     }
@@ -48,12 +57,13 @@ function ReceiveForm() {
             key={form.key('code')}
             {...form.getInputProps('code')}
           />
+          <div className="cf-turnstile" data-sitekey="0x4AAAAAAA_hieyUIexG2yCJ"></div>
           <Button className="m-auto w-9/12" type="submit" color="yellow" loading={loading}>
             Get 🚚
           </Button>
         </Flex>
       </form>
-      <Stack h={300} bg="var(--mantine-color-body)" gap="md" mx={20}>
+      <Stack h={300} bg="var(--mantine-color-body)" gap="md" mx={20} className="md:items-center ">
         {data.map((elm, index) => (
           <Anchor key={index} href={elm.presignedLink} truncate="end">
             {elm.objectKey}
