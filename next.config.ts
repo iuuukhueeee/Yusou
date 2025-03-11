@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         "destination": "https://cloud.umami.is/:match*"
       }
     ]
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'iuuukhueeee-soul.s3.ap-southeast-1.amazonaws.com',
+      },
+    ]
   }
 
 };

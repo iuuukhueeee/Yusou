@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       })
       .select();
 
-    // console.log(data);
+    console.log(data);
 
     if (error) throw error;
     return NextResponse.json({ data });
