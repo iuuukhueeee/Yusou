@@ -4,6 +4,7 @@ import { getData } from '@/app/actions/actions'
 import ImageWithLink from '@/app/components/image-with-link'
 import { ResponseLink } from '@/types'
 import { isValidImageType } from '@/utils/core'
+import { isTurnstileExist } from '@/utils/turnstile'
 import { Anchor, Button, Flex, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
@@ -36,6 +37,7 @@ function ReceiveForm() {
 
       const res = await getData(code, turnstileRes)
       if (res) {
+        // object not found
         if (res.length === 1 && res[0].additionalInfo) {
           if (res[0].additionalInfo) {
             notifications.show({ message: res[0].additionalInfo.message })
@@ -44,6 +46,9 @@ function ReceiveForm() {
       }
     } finally {
       closeLoading()
+      if (isTurnstileExist()) {
+        window.turnstile.reset()
+      }
     }
   }
 
