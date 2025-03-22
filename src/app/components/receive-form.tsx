@@ -1,7 +1,10 @@
 'use client'
 
 import { getData } from '@/app/actions/actions'
+import ImageWithLink from '@/app/components/image-with-link'
 import { ResponseLink } from '@/types'
+import { isValidImageType } from '@/utils/core'
+import { isTurnstileExist } from '@/utils/turnstile'
 import { Anchor, Button, Flex, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
@@ -34,6 +37,7 @@ function ReceiveForm() {
 
       const res = await getData(code, turnstileRes)
       if (res) {
+        // object not found
         if (res.length === 1 && res[0].additionalInfo) {
           if (res[0].additionalInfo) {
             notifications.show({ message: res[0].additionalInfo.message })
@@ -42,6 +46,9 @@ function ReceiveForm() {
       }
     } finally {
       closeLoading()
+      if (isTurnstileExist()) {
+        window.turnstile.reset()
+      }
     }
   }
 
@@ -64,11 +71,25 @@ function ReceiveForm() {
         </Flex>
       </form>
       <Stack h={300} bg="var(--mantine-color-body)" gap="md" mx={20} className="md:items-center ">
-        {data.map((elm, index) => (
-          <Anchor key={index} href={elm.presignedLink} truncate="end">
-            {elm.objectKey}
-          </Anchor>
-        ))}
+        {data.map((elm, index) => {
+          const fileType = elm.objectKey.split('.').pop()
+          console.log(fileType)
+          if (fileType && isValidImageType(fileType)) {
+            return (
+              <ImageWithLink
+                key={index}
+                objectKey={elm.objectKey}
+                presignedLink={elm.presignedLink}
+              />
+            )
+          } else {
+            return (
+              <Anchor key={index} href={elm.presignedLink} truncate="end">
+                {elm.objectKey}
+              </Anchor>
+            )
+          }
+        })}
       </Stack>
     </>
   )
