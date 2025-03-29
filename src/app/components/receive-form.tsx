@@ -5,7 +5,7 @@ import ImageWithLink from '@/app/components/image-with-link'
 import { ResponseLink } from '@/types'
 import { isValidImageType } from '@/utils/core'
 import { isTurnstileExist } from '@/utils/turnstile'
-import { Anchor, Button, Flex, Stack, TextInput } from '@mantine/core'
+import { Anchor, Button, Flex, Stack, Textarea, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
@@ -18,6 +18,7 @@ function ReceiveForm() {
     mode: 'uncontrolled',
     initialValues: {
       code: '',
+      password: '',
     },
   })
 
@@ -30,12 +31,13 @@ function ReceiveForm() {
 
     try {
       const code = form.getValues().code
+      const password = form.getValues().password
       if (code.length === 0) {
         notifications.show({ message: 'Code is empty!' })
         return
       }
 
-      const res = await getData(code, turnstileRes)
+      const res = await getData(code, turnstileRes, password)
       if (res) {
         // object not found
         if (res.length === 1 && res[0].additionalInfo) {
@@ -63,6 +65,13 @@ function ReceiveForm() {
             placeholder="code..."
             key={form.key('code')}
             {...form.getInputProps('code')}
+          />
+          <Textarea
+            label="Your password if any"
+            className="w-9/12"
+            placeholder="password..."
+            key={form.key('password')}
+            {...form.getInputProps('password')}
           />
           <div className="cf-turnstile" data-sitekey="0x4AAAAAAA_hieyUIexG2yCJ"></div>
           <Button className="m-auto w-9/12" type="submit" color="yellow" loading={loading}>

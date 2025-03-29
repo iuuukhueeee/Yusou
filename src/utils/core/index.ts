@@ -28,3 +28,17 @@ export const generate_hash = (password: string) => {
   else
     throw Error('Salt for generate hash is missing')
 }
+
+export const verify_hash = (password: string, cipher: string) => {
+  const salt = process.env.SALT
+  if (salt)
+    return new Promise((resolve, reject) => {
+      crypto.pbkdf2(password.normalize(), salt, 100000, 64, 'sha256', (err, verify) => {
+        if (err) reject(err)
+        const isValidPassword = verify.toString('hex') === cipher
+        resolve(isValidPassword)
+      })
+    })
+  else
+    throw Error('Salt for verify hash is missing')
+}

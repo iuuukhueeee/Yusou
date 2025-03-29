@@ -1,11 +1,12 @@
 'use server'
 
 import { ResponseLink } from '@/types'
+import { verify_hash } from '@/utils/core'
 import { listObjects } from '@/utils/s3'
 import { createClient } from '@/utils/supabase/server'
 import { headers } from 'next/headers'
 
-export async function getData(code: string, turnstileRes: string) {
+export async function getData(code: string, turnstileRes: string, password: string) {
   try {
     if (!code || !turnstileRes) throw Error('Code is missing')
 
@@ -22,9 +23,13 @@ export async function getData(code: string, turnstileRes: string) {
         .maybeSingle()
 
       if (data && data.object_key) {
-        // const response = await getObject(process.env.S3_BUCKET ?? "", data.object_key)
+        if (data.password) {
+          const isPasswordMatch = await verify_hash(password, data.password)
+          if (!isPasswordMatch) return []
+        }
         const response = await listObjects(process.env.S3_BUCKET ?? '', data.object_key)
         return response
+
       }
     }
 
