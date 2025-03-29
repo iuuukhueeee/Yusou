@@ -15,13 +15,14 @@ import { Group, Stack, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react'
 import Image from 'next/image'
+import { memo } from 'react'
 
 interface Props {
   files: FileWithPath[]
   setFiles: (files: FileWithPath[]) => void
 }
 
-function Dropbox({ files, setFiles }: Props) {
+const Dropbox = memo(function Dropbox({ files, setFiles }: Props) {
   const previews = files.map((file, index) => {
     if (isValidImageMimeType(file.type)) {
       const imageUrl = URL.createObjectURL(file)
@@ -78,6 +79,6 @@ function Dropbox({ files, setFiles }: Props) {
       <Stack justify="center">{previews}</Stack>
     </>
   )
-}
+})
 
 export default Dropbox
