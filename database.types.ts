@@ -31,6 +31,7 @@ export type Database = {
           id: number
           object_key: string | null
           otp_code: string | null
+          password: string | null
           updated_at: string | null
         }
         Insert: {
@@ -39,6 +40,7 @@ export type Database = {
           id?: never
           object_key?: string | null
           otp_code?: string | null
+          password?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -47,6 +49,7 @@ export type Database = {
           id?: never
           object_key?: string | null
           otp_code?: string | null
+          password?: string | null
           updated_at?: string | null
         }
         Relationships: []

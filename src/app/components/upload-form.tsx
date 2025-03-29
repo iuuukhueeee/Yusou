@@ -22,6 +22,7 @@ function UploadForm() {
     mode: 'uncontrolled',
     initialValues: {
       text: '',
+      password: '',
     },
   })
 
@@ -38,7 +39,7 @@ function UploadForm() {
   })
 
   const dbMutation = useMutation({
-    mutationFn: async (values: { objectKey: string }) => {
+    mutationFn: async (values: { objectKey: string; password: string }) => {
       return fetch('/api/share', {
         method: 'POST',
         body: JSON.stringify(values),
@@ -61,6 +62,7 @@ function UploadForm() {
 
     try {
       const text = form.getValues().text
+      const password = form.getValues().password
 
       if (text.length == 0 && files.length == 0) {
         notifications.show({
@@ -86,7 +88,7 @@ function UploadForm() {
         })
       }
 
-      const response = await dbMutation.mutateAsync({ objectKey: uuid.data })
+      const response = await dbMutation.mutateAsync({ objectKey: uuid.data, password: password })
       const { data: shares } = await response.json()
 
       if (shares) {
@@ -115,6 +117,13 @@ function UploadForm() {
             placeholder="text..."
             key={form.key('text')}
             {...form.getInputProps('text')}
+          />
+          <Textarea
+            label="Your password if any"
+            className="w-9/12"
+            placeholder="password..."
+            key={form.key('password')}
+            {...form.getInputProps('password')}
           />
           <Dropbox files={files} setFiles={setFiles} />
           <Button className="m-auto w-9/12" type="submit" onClick={handleSubmit} loading={loading}>
