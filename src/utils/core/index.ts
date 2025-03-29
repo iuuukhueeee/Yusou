@@ -18,3 +18,13 @@ export const isValidImageType = (type: string) => {
   imageType.push('jpg')
   return imageType.includes(type)
 }
+
+// recommandation about salt when using it with hahsing
+// https://stackoverflow.com/questions/1645161/salt-generation-and-open-source-software/1645190#1645190
+export const generate_hash = (password: string) => {
+  const salt = process.env.SALT
+  if (salt)
+    return crypto.pbkdf2Sync(password.normalize(), salt, 100000, 64, 'sha256').toString('hex')
+  else
+    throw Error('Salt for generate hash is missing')
+}
