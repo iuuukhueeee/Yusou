@@ -1,3 +1,4 @@
+import NavBar from '@/app/components/nav-bar/nav-bar'
 import { ReactQueryClientProvider } from '@/app/components/react-query-client-provider'
 import { createTheme, MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
@@ -37,6 +38,7 @@ export default function RootLayout({
         <ReactQueryClientProvider>
           <MantineProvider theme={theme}>
             <Notifications />
+            <NavBar />
             {children}
           </MantineProvider>
         </ReactQueryClientProvider>

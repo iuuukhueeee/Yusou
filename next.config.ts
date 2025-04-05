@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
         hostname: 'iuuukhueeee-soul.s3.ap-southeast-1.amazonaws.com',
       },
     ]
+  },
+  async redirects() {
+    return [
+      {
+        "source": "/",
+        destination: "/upload",
+        permanent: true
+      }
+    ]
   }
 
 };
