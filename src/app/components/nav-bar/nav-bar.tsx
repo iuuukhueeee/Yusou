@@ -19,11 +19,10 @@ function NavBar() {
   const items = links.map((link) => (
     <Link
       key={link.label}
-      href={link.link}
+      href={{ pathname: link.link }}
       className={classes.link}
       data-active={active === link.link || undefined}
-      onClick={(event) => {
-        event.preventDefault()
+      onClick={() => {
         setActive(link.link)
       }}
     >
