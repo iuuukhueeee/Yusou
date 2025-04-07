@@ -58,7 +58,7 @@ export const listObjects = (bucket: string, key: string) => {
 
 async function generatePresignedUrl(client: S3Client, command: GetObjectCommand): Promise<string> {
   try {
-    const url = await getSignedUrl(client, command, { expiresIn: 3600 })
+    const url = await getSignedUrl(client, command, { expiresIn: 600 })
     return url
   } catch (error) {
     throw error
