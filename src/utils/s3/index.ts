@@ -56,6 +56,7 @@ export const listObjects = (bucket: string, key: string) => {
   })
 }
 
+// https://repost.aws/questions/QUrftN6RSZQ9GYT9O5koKXzg/s3-how-do-we-protect-ourselves-from-a-malicious-user-refreshing-a-page-a-million-times-in-order-to-rack-up-an-aws-s3-bill
 async function generatePresignedUrl(client: S3Client, command: GetObjectCommand): Promise<string> {
   try {
     const url = await getSignedUrl(client, command, { expiresIn: 600 })
