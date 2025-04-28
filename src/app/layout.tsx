@@ -24,7 +24,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: '輸送 - Yusou',
-  description: 'Yusou - Transportation 🚚',
+  description:
+    'Yusou - Transportation 🚚 | Effortless, Reliable, and Secure Cross-Platform File Sharing',
 }
 
 export default function RootLayout({
