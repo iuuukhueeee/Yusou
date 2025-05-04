@@ -1,7 +1,7 @@
 'use client'
 
-import { getData } from '@/app/actions/actions'
 import ImageWithLink from '@/app/components/image-with-link'
+import getDataFromS3 from '@/lib/server/getDataFromS3'
 import { ResponseLink } from '@/types'
 import { isValidImageType } from '@/utils/core'
 import { isTurnstileExist } from '@/utils/turnstile'
@@ -11,7 +11,7 @@ import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { FormEvent, useEffect, useState } from 'react'
 
-function ReceiveForm() {
+function ReceivePage() {
   const [data, setData] = useState<ResponseLink[]>([])
   const [loading, { open: openLoading, close: closeLoading }] = useDisclosure()
   const form = useForm({
@@ -37,7 +37,7 @@ function ReceiveForm() {
         return
       }
 
-      const res = await getData(code, turnstileRes, password)
+      const res = await getDataFromS3(code, turnstileRes, password)
       if (res) {
         // object not found
         if (res.length === 1 && res[0].additionalInfo) {
@@ -121,4 +121,4 @@ function ReceiveForm() {
   )
 }
 
-export default ReceiveForm
+export default ReceivePage
