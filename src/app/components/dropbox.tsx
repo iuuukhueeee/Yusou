@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  Dropzone,
-  FileWithPath,
-  IMAGE_MIME_TYPE,
-  MS_EXCEL_MIME_TYPE,
-  MS_POWERPOINT_MIME_TYPE,
-  MS_WORD_MIME_TYPE,
-  PDF_MIME_TYPE,
-} from '@mantine/dropzone'
+import { Dropzone, FileWithPath } from '@mantine/dropzone'
 
 import { isValidImageMimeType } from '@/utils/core'
 import { Group, Stack, Text } from '@mantine/core'
@@ -46,13 +38,6 @@ const Dropbox = memo(function Dropbox({ files, setFiles }: Props) {
         onDrop={setFiles}
         onReject={() => notifications.show({ message: 'Invalid files' })}
         maxSize={200 * 1024 ** 2}
-        accept={[
-          ...IMAGE_MIME_TYPE,
-          ...PDF_MIME_TYPE,
-          ...MS_WORD_MIME_TYPE,
-          ...MS_EXCEL_MIME_TYPE,
-          ...MS_POWERPOINT_MIME_TYPE,
-        ]}
         className="w-9/12"
       >
         <Group style={{ pointerEvents: 'none' }}>
