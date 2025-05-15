@@ -24,8 +24,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: '輸送 - Yusou',
-  description:
-    'Yusou - Transportation 🚚 | Effortless, Reliable, and Secure Cross-Platform File Sharing',
+  description: '輸送 - Yusou. Effortless, Reliable, and Secure Cross-Platform File Sharing 🚚',
+  authors: [{ name: 'iuuukhueeee', url: 'https://iuuukhueeee.github.io' }],
+  creator: 'iuuukhueeee',
+  publisher: 'iuuukhueeee',
+  keywords: ['Sharing', 'Dropzone', 'Drag and drop'],
 }
 
 export default function RootLayout({
