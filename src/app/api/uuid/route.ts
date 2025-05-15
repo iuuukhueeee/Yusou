@@ -1,8 +1,7 @@
-"use server"
+'use server'
 
-import * as crypto from "crypto";
-import { NextResponse } from "next/server";
-
+import * as crypto from 'crypto'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {

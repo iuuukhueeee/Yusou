@@ -1,4 +1,4 @@
-export const TURNSTILE_URL = "https://challenges.cloudflare.com/turnstile/v0/api.js"
+export const TURNSTILE_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
 export const DEFAULT_SCRIPT_ID = 'cf-turnstile-script'
 
 // should find a way to append Next's Script component
@@ -14,7 +14,6 @@ export const injectTurnstileScript = () => {
 
   script.defer = true
   script.async = true
-
 
   document.body.appendChild(script)
 }

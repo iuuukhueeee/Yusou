@@ -13,7 +13,7 @@ export const isValidImageMimeType = (type: string): type is ValidImageMimeType =
 }
 
 export const isValidImageType = (type: string) => {
-  const imageType = (IMAGE_MIME_TYPE as readonly string[]).map(elm => elm.split('/')[1])
+  const imageType = (IMAGE_MIME_TYPE as readonly string[]).map((elm) => elm.split('/')[1])
 
   imageType.push('jpg')
   return imageType.includes(type)
@@ -25,8 +25,7 @@ export const generate_hash = (password: string) => {
   const salt = process.env.SALT
   if (salt)
     return crypto.pbkdf2Sync(password.normalize(), salt, 100000, 64, 'sha256').toString('hex')
-  else
-    throw Error('Salt for generate hash is missing')
+  else throw Error('Salt for generate hash is missing')
 }
 
 export const verify_hash = (password: string, cipher: string) => {
@@ -39,6 +38,5 @@ export const verify_hash = (password: string, cipher: string) => {
         resolve(isValidPassword)
       })
     })
-  else
-    throw Error('Salt for verify hash is missing')
+  else throw Error('Salt for verify hash is missing')
 }
