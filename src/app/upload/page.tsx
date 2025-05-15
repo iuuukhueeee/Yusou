@@ -74,12 +74,14 @@ function UploadForm() {
       // generate a new UUID via API
       const { data: uuid } = await getUUID()
 
-      files.forEach(async (file) => {
-        await objectMutation.mutateAsync({
-          data: file,
-          objectKey: uuid.data,
-        })
-      })
+      await Promise.all(
+        files.map(async (file) => {
+          await objectMutation.mutateAsync({
+            data: file,
+            objectKey: uuid.data,
+          })
+        }),
+      )
 
       if (text.length > 0) {
         await objectMutation.mutateAsync({

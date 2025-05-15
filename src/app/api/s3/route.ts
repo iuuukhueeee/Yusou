@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function PUT(request: NextRequest) {
   try {
-    const promises = []
     const form = await request.formData()
 
     const data = form.get('data')
@@ -25,8 +24,7 @@ export async function PUT(request: NextRequest) {
 
       const command = new PutObjectCommand(input)
 
-      const response = await s3Client.send(command)
-      promises.push(response)
+      await s3Client.send(command)
     }
 
     // messages
@@ -39,11 +37,9 @@ export async function PUT(request: NextRequest) {
       }
 
       const command = new PutObjectCommand(input)
-      const response = await s3Client.send(command)
-      promises.push(response)
+      await s3Client.send(command)
     }
 
-    await Promise.all(promises)
     return NextResponse.json({ data: 'ok' })
   } catch (error) {
     console.error(error)
