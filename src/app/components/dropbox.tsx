@@ -56,7 +56,7 @@ const Dropbox = memo(function Dropbox({ files, setFiles }: Props) {
               Drag images here or click to select files
             </Text>
             <Text size="sm" c="dimmed" inline mt={7}>
-              Attach as many files as you like, each file should not exceed 200mb
+              Attach as many files as you like, each file should not exceed 200MB
             </Text>
           </div>
         </Group>
