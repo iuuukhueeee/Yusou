@@ -1,12 +1,14 @@
 'use server'
 
+import { UUIDResponse } from '@/app/api/uuid/types'
 import * as crypto from 'crypto'
 import { NextResponse } from 'next/server'
 
+
 export async function GET() {
   try {
-    return NextResponse.json({ data: crypto.randomUUID() })
+    return NextResponse.json<UUIDResponse>({ data: crypto.randomUUID() })
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 })
+    return NextResponse.json<UUIDResponse>({ error: error, data: '' }, { status: 500 })
   }
 }

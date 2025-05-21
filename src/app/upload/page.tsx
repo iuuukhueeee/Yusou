@@ -8,9 +8,14 @@ import { useForm } from '@mantine/form'
 
 import CodeModal from '@/app/components/code-modal'
 import Dropbox from '@/app/components/dropbox'
+import useUUID from '@/hooks/useUUID'
 import { FileWithPath } from '@mantine/dropzone'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { FormEvent, useState } from 'react'
+
+interface S3UrlResponse {
+  data: string
+}
 
 function UploadForm() {
   const [opened, { open, close }] = useDisclosure(false)
@@ -26,18 +31,6 @@ function UploadForm() {
     },
   })
 
-  const objectMutation = useMutation({
-    mutationFn: async (values: { data: File | string; objectKey: string }) => {
-      const formData = new FormData()
-      formData.append('objectKey', values.objectKey)
-      formData.append('data', values.data)
-      return fetch('/api/s3', {
-        method: 'PUT',
-        body: formData,
-      })
-    },
-  })
-
   const dbMutation = useMutation({
     mutationFn: async (values: { objectKey: string; password: string }) => {
       return fetch('/api/share', {
@@ -47,14 +40,7 @@ function UploadForm() {
     },
   })
 
-  const { refetch: getUUID } = useQuery({
-    queryKey: ['/uuid/get'],
-    queryFn: async () => {
-      const response = await fetch('/api/uuid', { method: 'GET' })
-      return response.json()
-    },
-    enabled: false, // Disable automatic fetching
-  })
+  const { refetch: getUUID } = useUUID()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -74,35 +60,58 @@ function UploadForm() {
       // generate a new UUID via API
       const { data: uuid } = await getUUID()
 
-      await Promise.all(
-        files.map(async (file) => {
-          await objectMutation.mutateAsync({
-            data: file,
-            objectKey: uuid.data,
-          })
-        }),
-      )
+      if (uuid?.data) {
+        // handle files upload
+        await Promise.all(
+          files.map(async (file) => {
+            const body = new Blob([file], {
+              type: file.type,
+            })
 
-      if (text.length > 0) {
-        await objectMutation.mutateAsync({
-          data: text,
-          objectKey: uuid.data,
+            const key = `${uuid.data}/${file.name}`
+            const params = new URLSearchParams({
+              key,
+            })
+            const response = await fetch(`/api/s3?${params.toString()}`)
+            const url: S3UrlResponse = await response.json()
+
+            await fetch(url.data, {
+              method: 'PUT',
+              body: body,
+            })
+          }),
+        )
+
+        // handle text upload
+        if (text.length > 0) {
+          const key = `${uuid.data}/text.txt`
+          const params = new URLSearchParams({
+            key,
+          })
+          const response = await fetch(`/api/s3?${params.toString()}`)
+          const url: S3UrlResponse = await response.json()
+
+          await fetch(url.data, {
+            method: 'PUT',
+            body: text,
+          })
+        }
+
+        // generate a code when uploading is complete
+        const response = await dbMutation.mutateAsync({ objectKey: uuid.data, password: password })
+        const { data: shares } = await response.json()
+
+        if (shares) {
+          setCode(shares.at(0).otp_code)
+          open()
+        }
+
+        form.setFieldValue('text', '')
+
+        notifications.show({
+          message: 'Upload completed!',
         })
       }
-
-      const response = await dbMutation.mutateAsync({ objectKey: uuid.data, password: password })
-      const { data: shares } = await response.json()
-
-      if (shares) {
-        setCode(shares.at(0).otp_code)
-        open()
-      }
-
-      form.setFieldValue('text', '')
-
-      notifications.show({
-        message: 'Upload completed!',
-      })
     } finally {
       closeLoading()
     }

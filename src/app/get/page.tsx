@@ -99,7 +99,6 @@ function ReceivePage() {
       <Stack h={300} bg="var(--mantine-color-body)" gap="md" mx={20} className="md:items-center ">
         {data.map((elm, index) => {
           const fileType = elm.objectKey.split('.').pop()
-          console.log(fileType)
           if (fileType && isValidImageType(fileType)) {
             return (
               <ImageWithLink

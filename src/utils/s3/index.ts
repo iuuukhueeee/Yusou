@@ -1,6 +1,6 @@
-import { ResponseLink } from '@/types'
-import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3' // ES Modules import
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { ResponseLink } from '@/types';
+import { GetObjectCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'; // ES Modules import
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export const s3Client = new S3Client({
   credentials: {
@@ -57,11 +57,25 @@ export const listObjects = (bucket: string, key: string) => {
 }
 
 // https://repost.aws/questions/QUrftN6RSZQ9GYT9O5koKXzg/s3-how-do-we-protect-ourselves-from-a-malicious-user-refreshing-a-page-a-million-times-in-order-to-rack-up-an-aws-s3-bill
-async function generatePresignedUrl(client: S3Client, command: GetObjectCommand): Promise<string> {
+async function generatePresignedUrl(client: S3Client, command: GetObjectCommand | PutObjectCommand): Promise<string> {
   try {
     return await getSignedUrl(client, command, { expiresIn: 600 })
   } catch (error) {
     console.error(error)
     throw error
   }
+}
+
+export const generatePutPresignedUrl = (bucket: string, key: string) => {
+  return new Promise<string>(async (resolve, reject) => {
+    const putObjectCommand = new PutObjectCommand({ Bucket: bucket, Key: key })
+    try {
+      const response = await generatePresignedUrl(s3Client, putObjectCommand)
+      resolve(response)
+
+    } catch (error) {
+      return reject(error)
+    }
+
+  })
 }
