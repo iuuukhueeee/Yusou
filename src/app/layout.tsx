@@ -44,6 +44,9 @@ export default function RootLayout({
             <Notifications />
             <NavBar />
             {children}
+            <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 text-center w-full bg-gray-50">
+              <p>Made with 💜 by iuuukhueeee.</p>
+            </footer>
           </MantineProvider>
         </ReactQueryClientProvider>
       </body>
