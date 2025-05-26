@@ -37,3 +37,26 @@ I always love open-source software, I take proud for what I built because I'm a 
 ## Get Started
 
 Simply visit [Yusou's website](https://yusou.vercel.app) or deploy it yourself. Start sharing instantly — no signups, no nonsense.
+
+### Clone the project
+
+Get started by cloning the project using git by
+
+```bash
+git clone https://github.com/iuuukhueeee/Yusou.git
+cd Yusou
+```
+
+### Install dependencies
+
+This project is using `yarn` as a package manager. So make use you have yarn installed by `npm install -g yarn`. Then run the following command to install dependencies
+
+```bash
+yarn
+```
+
+Then run `yarn dev` to start development.
+
+### Environment
+
+To setup environment. Navigate to [ENVIRONMENT.md](./docs/ENVIRONMENT.md)
