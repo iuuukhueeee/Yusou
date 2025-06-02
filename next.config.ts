@@ -17,15 +17,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/upload',
-        permanent: true,
-      },
-    ]
-  },
 }
 
 export default nextConfig
