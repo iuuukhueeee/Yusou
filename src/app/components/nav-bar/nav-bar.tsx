@@ -32,7 +32,7 @@ function NavBar() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        <YusouLogo size={40} />
+        <YusouLogo size={40} onClick={() => window.location.href="https://yusou.vercel.dev"} />
 
         <Group gap={5} visibleFrom="xs">
           {items}
