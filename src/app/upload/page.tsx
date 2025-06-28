@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Flex, Textarea } from '@mantine/core'
+import { Box, Button, Flex, Textarea } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
@@ -118,31 +118,38 @@ function UploadForm() {
   }
 
   return (
-    <>
+    <Box className='flex justify-center mt-20'>
       <CodeModal close={close} code={code} opened={opened} />
-      <form>
-        <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
-          <Textarea
-            label="Your message"
-            className="w-9/12"
-            placeholder="text..."
-            key={form.key('text')}
-            {...form.getInputProps('text')}
-          />
-          <Textarea
-            label="Your password if any"
-            className="w-9/12"
-            placeholder="password..."
-            key={form.key('password')}
-            {...form.getInputProps('password')}
-          />
-          <Dropbox files={files} setFiles={setFiles} />
-          <Button className="m-auto w-9/12" type="submit" onClick={handleSubmit} loading={loading}>
-            Go 🚚
-          </Button>
-        </Flex>
-      </form>
-    </>
+      <Box className="w-4/6">
+        <form>
+          <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
+            <Textarea
+              label="Your message (optional)"
+              className="w-9/12"
+              placeholder="Type your secret message here..."
+              key={form.key('text')}
+              {...form.getInputProps('text')}
+            />
+            <Textarea
+              label="Your password (optional)"
+              className="w-9/12"
+              placeholder="Secure your files with a password..."
+              key={form.key('password')}
+              {...form.getInputProps('password')}
+            />
+            <Dropbox files={files} setFiles={setFiles} />
+            <Button
+              className="m-auto w-9/12"
+              type="submit"
+              onClick={handleSubmit}
+              loading={loading}
+            >
+              Go 🚚
+            </Button>
+          </Flex>
+        </form>
+      </Box>
+    </Box>
   )
 }
 
