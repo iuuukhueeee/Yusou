@@ -13,7 +13,7 @@ import { FormEvent, useEffect, useState } from 'react'
 
 function ReceivePage() {
   const [retrievedFiles, setRetrievedFiles] = useState<ResponseLink[]>([])
-  const [error, setError] = useState<string | null>(null)
+  // const [error, setError] = useState<string | null>(null)
   const [loading, { open: openLoading, close: closeLoading }] = useDisclosure()
   const form = useForm({
     mode: 'uncontrolled',
@@ -124,7 +124,7 @@ function ReceivePage() {
           })}
         </Stack> */}
 
-        {retrievedFiles && retrievedFiles.length > 0 && !error && (
+        {retrievedFiles && retrievedFiles.length > 0 && (
           <div className="mt-8 pt-6 px-6 border-t border-borderBase block">
             <h4 className="text-base font-medium mb-2 text-textMuted">Files: </h4>
             <ul className="space-y-2.5">
