@@ -5,6 +5,7 @@ import '@mantine/core/styles.css'
 import '@mantine/dropzone/styles.css'
 import { Notifications } from '@mantine/notifications'
 import '@mantine/notifications/styles.css'
+import { Analytics } from "@vercel/analytics/next"
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Script from 'next/script'
@@ -47,6 +48,7 @@ export default function RootLayout({
             <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 text-center w-full bg-gray-50">
               <p>Made with 💜 by iuuukhueeee.</p>
             </footer>
+            <Analytics />
           </MantineProvider>
         </ReactQueryClientProvider>
       </body>
