@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Flex, Textarea } from '@mantine/core'
+import { Box, Button, Center, Flex, Paper, Text, Textarea } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
@@ -132,38 +132,45 @@ function UploadForm() {
   )
 
   return (
-    <Box className="flex justify-center mt-20">
+    <Box className="flex justify-center mt-20 mb-20">
       <CodeModal close={close} code={code} opened={opened} />
-      <Box className="w-3/6">
-        <form>
-          <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
-            <Textarea
-              label="Your message (optional)"
-              className="w-9/12"
-              placeholder="Type your secret message here..."
-              key={form.key('text')}
-              {...form.getInputProps('text')}
-            />
-            <Textarea
-              label="Your password (optional)"
-              className="w-9/12"
-              placeholder="Secure your files with a password..."
-              key={form.key('password')}
-              {...form.getInputProps('password')}
-            />
-            {/* <Dropbox files={files} setFiles={setFiles} /> */}
-            <FileDropzone onFilesSelected={handleFileSelected} />
-            <Button
-              className="m-auto w-9/12"
-              type="submit"
-              onClick={handleSubmit}
-              loading={loading}
-            >
-              Go 🚚
-            </Button>
-          </Flex>
-        </form>
-      </Box>
+      <Paper className="w-4/6" py="lg" radius="md" shadow="sm">
+        <Box className="">
+          <Center>
+            <Text fw={700} size="xl">
+              Upload your Files
+            </Text>
+          </Center>
+          <form>
+            <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
+              <Textarea
+                label="Your message (optional)"
+                className="md:w-9/12"
+                placeholder="Type your secret message here..."
+                key={form.key('text')}
+                {...form.getInputProps('text')}
+              />
+              <Textarea
+                label="Your password (optional)"
+                className="md:w-9/12"
+                placeholder="Secure your files with a password..."
+                key={form.key('password')}
+                {...form.getInputProps('password')}
+              />
+              {/* <Dropbox files={files} setFiles={setFiles} /> */}
+              <FileDropzone onFilesSelected={handleFileSelected} />
+              <Button
+                className="m-auto w-9/12"
+                type="submit"
+                onClick={handleSubmit}
+                loading={loading}
+              >
+                Go 🚚
+              </Button>
+            </Flex>
+          </form>
+        </Box>
+      </Paper>
     </Box>
   )
 }

@@ -44,9 +44,9 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
     setError(error)
 
     if (validFiles.length > 0) {
-      const updatedFiles = [...selectedFiles, ...validFiles].slice(0, 10)
-      setSelectedFiles(updatedFiles)
-      onFilesSelected(updatedFiles)
+      // const updatedFiles = [...selectedFiles, ...validFiles].slice(0, 10) // limit to 10 files
+      setSelectedFiles(validFiles)
+      onFilesSelected(validFiles)
     }
   }
 
@@ -82,7 +82,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
   }
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 md:w-9/12">
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -132,7 +132,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
                 </div>
                 <Button
                   variant="transparent"
-                  className="font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-focusRing transition-all duration-150 ease-in-out inline-flex items-center justify-center whitespace-nowrap p-2.5"
+                  className="font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-focusRing transition-all duration-150 ease-in-out inline-flex items-center justify-center whitespace-nowrap p-2.5 hover:bg-red-200"
                   aria-label={`Remove ${file.name}`}
                   onClick={() => removeFile(file.name)}
                 >
