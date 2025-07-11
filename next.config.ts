@@ -17,15 +17,21 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/upload',
-  //       permanent: true,
-  //     },
-  //   ]
-  // },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'yusou.vercel.app',
+          },
+        ],
+        destination: 'https://yusou.dev/:path*',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextConfig
