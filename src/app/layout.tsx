@@ -5,6 +5,7 @@ import '@mantine/core/styles.css'
 import '@mantine/dropzone/styles.css'
 import { Notifications } from '@mantine/notifications'
 import '@mantine/notifications/styles.css'
+import { Analytics } from "@vercel/analytics/next"
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Script from 'next/script'
@@ -44,6 +45,7 @@ export default function RootLayout({
             <Notifications />
             <NavBar />
             {children}
+            <Analytics />
           </MantineProvider>
         </ReactQueryClientProvider>
       </body>
