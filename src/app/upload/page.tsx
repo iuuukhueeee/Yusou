@@ -7,11 +7,12 @@ import { notifications } from '@mantine/notifications'
 import { useForm } from '@mantine/form'
 
 import CodeModal from '@/app/components/code-modal'
-import Dropbox from '@/app/components/dropbox'
+import FileDropzone from '@/app/components/dropzone/file-dropzone'
+import { FileWithPreview } from '@/app/components/dropzone/types'
 import useUUID from '@/hooks/useUUID'
 import { FileWithPath } from '@mantine/dropzone'
 import { useMutation } from '@tanstack/react-query'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 
 interface S3UrlResponse {
   data: string
@@ -22,6 +23,7 @@ function UploadForm() {
   const [code, setCode] = useState<string>('')
   const [files, setFiles] = useState<FileWithPath[]>([])
   const [loading, { open: openLoading, close: closeLoading }] = useDisclosure()
+  const [error, setError] = useState<string | null>(null)
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -117,10 +119,22 @@ function UploadForm() {
     }
   }
 
+  const handleFileSelected = useCallback(
+    (selectedFiles: FileWithPreview[]) => {
+      setFiles(selectedFiles)
+      if (
+        selectedFiles.length > 0 &&
+        error === 'Please provide a message or upload at least one file.'
+      )
+        setError(null)
+    },
+    [error],
+  )
+
   return (
-    <Box className='flex justify-center mt-20'>
+    <Box className="flex justify-center mt-20">
       <CodeModal close={close} code={code} opened={opened} />
-      <Box className="w-4/6">
+      <Box className="w-3/6">
         <form>
           <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
             <Textarea
@@ -137,7 +151,8 @@ function UploadForm() {
               key={form.key('password')}
               {...form.getInputProps('password')}
             />
-            <Dropbox files={files} setFiles={setFiles} />
+            {/* <Dropbox files={files} setFiles={setFiles} /> */}
+            <FileDropzone onFilesSelected={handleFileSelected} />
             <Button
               className="m-auto w-9/12"
               type="submit"
