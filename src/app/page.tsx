@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
+import UploadForm from '@/app/upload/page'
 
 export default function Home() {
-  redirect('/upload')
+  return <UploadForm />
 }
