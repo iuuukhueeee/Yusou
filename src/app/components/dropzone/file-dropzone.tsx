@@ -87,7 +87,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center w-full p-6 py-10 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-150 ease-in-out ${isOver ? `border-primary bg-primary/10` : `border-borderBase hover:border-secondary bg-slate-50 hover:bg-slate-100`}`}
+        className={`flex flex-col items-center justify-center w-full p-6 py-10 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-150 ease-in-out ${isOver ? `border-primary bg-primary/10` : `border-border-base hover:border-secondary bg-slate-50 hover:bg-slate-100`}`}
       >
         <input
           id="file-upload"
@@ -103,7 +103,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
             className={`mx-auto mb-4 ${isOver ? `text-primary` : `text-secondary`}`}
             size={48}
           />
-          <p className={`text-lg font-semibold ${isOver ? `text-primary` : `text-textBase`}`}>
+          <p className={`text-lg font-semibold ${isOver ? `text-primary` : `text-text-base`}`}>
             Drag & drop files here, or click to select
           </p>
           <p className={`text-sm text-textMuted mt-1`}>Max 200MB per file.</p>
@@ -113,7 +113,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
       {selectedFiles.length > 0 && (
         <div className="mt-4 space-y-3">
           <h3 className="text-bases font-medium text-textMuted">Selected files:</h3>
-          <ul className="divide-y divide-borderBase border border-borderBase rounded-lg overflow-hidden">
+          <ul className="divide-y divide-border-base border border-border-base rounded-lg overflow-hidden">
             {selectedFiles.map((file) => (
               <li
                 key={file.name}
@@ -125,7 +125,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
                     className="text-primary flex-shrink-0"
                     size={18}
                   />
-                  <span className="truncate text-textBase font-medium" title={file.name}>
+                  <span className="truncate text-text-base font-medium" title={file.name}>
                     {file.name}
                   </span>
                   <span className="text-textMuted flex-shrink-0">{formatBytes(file.size)}</span>

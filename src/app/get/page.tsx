@@ -125,13 +125,13 @@ function ReceivePage() {
         </Stack> */}
 
         {retrievedFiles && retrievedFiles.length > 0 && (
-          <div className="mt-8 pt-6 px-6 border-t border-borderBase block">
+          <div className="mt-8 pt-6 px-6 border-t border-border-base block">
             <h4 className="text-base font-medium mb-2 text-textMuted">Files: </h4>
             <ul className="space-y-2.5">
               {retrievedFiles.map((file, index) => (
                 <li
                   key={index}
-                  className="p-3 bg-slate-50 hover:bg-slate-100 rounded-lg border border-collapse border-borderBase flex justify-between items-center transition-colors"
+                  className="p-3 bg-slate-50 hover:bg-slate-100 rounded-lg border border-collapse border-border-base flex justify-between items-center transition-colors"
                 >
                   <div className="flex items-center min-w-0 space-x-2.5">
                     <Icon
@@ -141,7 +141,7 @@ function ReceivePage() {
                     />
                     <div className="min-w-9">
                       <span
-                        className="font-medium text-textBase truncate block"
+                        className="font-medium text-text-base truncate block"
                         title={file.objectKey}
                       >
                         {file.objectKey}
