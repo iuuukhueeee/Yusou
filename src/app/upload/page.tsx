@@ -1,17 +1,18 @@
 'use client'
 
-import { Button, Flex, Textarea } from '@mantine/core'
+import { Box, Button, Center, Flex, Paper, Text, Textarea } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
 import { useForm } from '@mantine/form'
 
 import CodeModal from '@/app/components/code-modal'
-import Dropbox from '@/app/components/dropbox'
+import FileDropzone from '@/app/components/dropzone/file-dropzone'
+import { FileWithPreview } from '@/app/components/dropzone/types'
 import useUUID from '@/hooks/useUUID'
 import { FileWithPath } from '@mantine/dropzone'
 import { useMutation } from '@tanstack/react-query'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 
 interface S3UrlResponse {
   data: string
@@ -22,6 +23,7 @@ function UploadForm() {
   const [code, setCode] = useState<string>('')
   const [files, setFiles] = useState<FileWithPath[]>([])
   const [loading, { open: openLoading, close: closeLoading }] = useDisclosure()
+  const [error, setError] = useState<string | null>(null)
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -117,32 +119,59 @@ function UploadForm() {
     }
   }
 
+  const handleFileSelected = useCallback(
+    (selectedFiles: FileWithPreview[]) => {
+      setFiles(selectedFiles)
+      if (
+        selectedFiles.length > 0 &&
+        error === 'Please provide a message or upload at least one file.'
+      )
+        setError(null)
+    },
+    [error],
+  )
+
   return (
-    <>
+    <Box className="flex justify-center mt-20 mb-20">
       <CodeModal close={close} code={code} opened={opened} />
-      <form>
-        <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
-          <Textarea
-            label="Your message"
-            className="w-9/12"
-            placeholder="text..."
-            key={form.key('text')}
-            {...form.getInputProps('text')}
-          />
-          <Textarea
-            label="Your password if any"
-            className="w-9/12"
-            placeholder="password..."
-            key={form.key('password')}
-            {...form.getInputProps('password')}
-          />
-          <Dropbox files={files} setFiles={setFiles} />
-          <Button className="m-auto w-9/12" type="submit" onClick={handleSubmit} loading={loading}>
-            Go 🚚
-          </Button>
-        </Flex>
-      </form>
-    </>
+      <Paper className="w-4/6" py="lg" radius="md" shadow="sm">
+        <Box className="">
+          <Center>
+            <Text fw={700} size="xl">
+              Upload your Files
+            </Text>
+          </Center>
+          <form>
+            <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
+              <Textarea
+                label="Your message (optional)"
+                className="md:w-9/12"
+                placeholder="Type your secret message here..."
+                key={form.key('text')}
+                {...form.getInputProps('text')}
+              />
+              <Textarea
+                label="Your password (optional)"
+                className="md:w-9/12"
+                placeholder="Secure your files with a password..."
+                key={form.key('password')}
+                {...form.getInputProps('password')}
+              />
+              {/* <Dropbox files={files} setFiles={setFiles} /> */}
+              <FileDropzone onFilesSelected={handleFileSelected} />
+              <Button
+                className="m-auto w-9/12"
+                type="submit"
+                onClick={handleSubmit}
+                loading={loading}
+              >
+                Go 🚚
+              </Button>
+            </Flex>
+          </form>
+        </Box>
+      </Paper>
+    </Box>
   )
 }
 

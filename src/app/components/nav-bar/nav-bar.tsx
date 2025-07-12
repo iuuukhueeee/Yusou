@@ -32,7 +32,9 @@ function NavBar() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        <YusouLogo size={40} />
+        <Link href="https://yusou.dev">
+          <YusouLogo size={40} />
+        </Link>
 
         <Group gap={5} visibleFrom="xs">
           {items}
