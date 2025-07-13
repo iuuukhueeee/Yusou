@@ -69,8 +69,13 @@ function ReceivePage() {
   }, [])
 
   return (
-    <Box className="flex justify-center mt-20 mb-20">
-      <Paper className="w-4/6" py="lg" radius="md" shadow="sm">
+    <Box className="flex justify-center items-center px-4 py-8">
+      <Paper
+        className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
+        py="lg"
+        radius="md"
+        shadow="sm"
+      >
         <Center>
           <Text fw={700} size="xl">
             Get your Files
@@ -81,14 +86,16 @@ function ReceivePage() {
             <TextInput
               name="code"
               label="Code"
-              className="w-9/12"
+              className="md:w-9/12 w-full"
+              px="lg"
               placeholder="code..."
               key={form.key('code')}
               {...form.getInputProps('code')}
             />
             <Textarea
               label="Your password if any"
-              className="w-9/12"
+              className="md:w-9/12 w-full"
+              px="lg"
               placeholder="password..."
               key={form.key('password')}
               {...form.getInputProps('password')}

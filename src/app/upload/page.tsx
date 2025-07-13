@@ -132,9 +132,14 @@ function UploadForm() {
   )
 
   return (
-    <Box className="flex justify-center mt-20 mb-20">
+    <Box className="flex justify-center items-center px-4 py-8">
       <CodeModal close={close} code={code} opened={opened} />
-      <Paper className="w-4/6" py="lg" radius="md" shadow="sm">
+      <Paper
+        className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
+        py="lg"
+        radius="md"
+        shadow="sm"
+      >
         <Box className="">
           <Center>
             <Text fw={700} size="xl">
@@ -145,14 +150,16 @@ function UploadForm() {
             <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
               <Textarea
                 label="Your message (optional)"
-                className="md:w-9/12"
+                className="md:w-9/12 w-full"
+                px="lg"
                 placeholder="Type your secret message here..."
                 key={form.key('text')}
                 {...form.getInputProps('text')}
               />
               <Textarea
                 label="Your password (optional)"
-                className="md:w-9/12"
+                className="md:w-9/12 w-full"
+                px="lg"
                 placeholder="Secure your files with a password..."
                 key={form.key('password')}
                 {...form.getInputProps('password')}
@@ -160,7 +167,7 @@ function UploadForm() {
               {/* <Dropbox files={files} setFiles={setFiles} /> */}
               <FileDropzone onFilesSelected={handleFileSelected} />
               <Button
-                className="m-auto w-9/12"
+                className="md:w-9/12 w-full"
                 type="submit"
                 onClick={handleSubmit}
                 loading={loading}

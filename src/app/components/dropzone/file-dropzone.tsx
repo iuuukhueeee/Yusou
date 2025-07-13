@@ -82,7 +82,7 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
   }
 
   return (
-    <div className="mb-6 md:w-9/12">
+    <div className="mb-6 md:w-9/12 px-4">
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
