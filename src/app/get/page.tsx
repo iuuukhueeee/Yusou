@@ -69,26 +69,32 @@ function ReceivePage() {
   }, [])
 
   return (
-    <Box className="flex justify-center mt-20 mb-20">
-      <Paper className="w-4/6" py="lg" radius="md" shadow="sm">
+    <Box className="flex justify-center items-center px-4 py-8 mb-10">
+      <Paper
+        className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
+        py="lg"
+        radius="md"
+        shadow="sm"
+      >
         <Center>
-          <Text fw={700} size="xl">
-            Get your Files
-          </Text>
+          <h1 className="text-3xl font-semibold">Get your Files</h1>
+          <Text fw={700} size="xl"></Text>
         </Center>
         <form onSubmit={async (e) => await handleSubmit(e)} method="POST">
           <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap">
             <TextInput
               name="code"
               label="Code"
-              className="w-9/12"
+              className="w-full"
+              px="lg"
               placeholder="code..."
               key={form.key('code')}
               {...form.getInputProps('code')}
             />
             <Textarea
               label="Your password if any"
-              className="w-9/12"
+              className="w-full"
+              px="lg"
               placeholder="password..."
               key={form.key('password')}
               {...form.getInputProps('password')}
@@ -155,7 +161,7 @@ function ReceivePage() {
                     variant="outline"
                     size="sm"
                     onClick={() => window.open(file.presignedLink, '_blank')}
-                    className="!px-3 !py-1.5"
+                    className="!px-3 !py-1.5 flex-shrink-0 min-w-[80px]"
                   >
                     Download
                   </Button>
