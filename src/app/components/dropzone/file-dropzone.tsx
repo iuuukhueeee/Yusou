@@ -82,12 +82,12 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
   }
 
   return (
-    <div className="mb-6 md:w-9/12 px-4">
+    <div className="mb-6 px-4 w-full">
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center w-full p-6 py-10 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-150 ease-in-out ${isOver ? `border-primary bg-primary/10` : `border-border-base hover:border-secondary bg-slate-50 hover:bg-slate-100`}`}
+        className={`flex flex-col items-center justify-center p-6 py-10 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-150 ease-in-out ${isOver ? `border-primary bg-primary/10` : `border-border-base hover:border-secondary bg-slate-50 hover:bg-slate-100`}`}
       >
         <input
           id="file-upload"
@@ -112,31 +112,35 @@ const FileDropzone: React.FC<DropzoneProps> = ({ onFilesSelected, maxFileSizeMB 
       {error && <p className="mt-2 text-sm text-danger">{error}</p>}
       {selectedFiles.length > 0 && (
         <div className="mt-4 space-y-3">
-          <h3 className="text-bases font-medium text-textMuted">Selected files:</h3>
+          <h3 className="text-base font-medium text-text-muted">Selected files:</h3>
           <ul className="divide-y divide-border-base border border-border-base rounded-lg overflow-hidden">
             {selectedFiles.map((file) => (
               <li
                 key={file.name}
-                className="px-3 py-2.5 flex items-center justify-between text-sm bg-cardBg hover:bg-slate-50 transition-colors"
+                className="px-3 py-2.5 flex items-center justify-between text-sm bg-card-bg hover:bg-slate-50 transition-colors"
               >
-                <div className="flex items-center min-w-0 space-x-2">
+                <div className="flex items-center min-w-0 space-x-2 flex-1">
                   <Icon
                     svgContent={FILE_ICON_SVG}
                     className="text-primary flex-shrink-0"
                     size={18}
                   />
-                  <span className="truncate text-text-base font-medium" title={file.name}>
+                  <span
+                    className="truncate text-text-base font-medium min-w-0 flex-1"
+                    title={file.name}
+                  >
                     {file.name}
                   </span>
-                  <span className="text-textMuted flex-shrink-0">{formatBytes(file.size)}</span>
+                  <span className="text-text-muted flex-shrink-0">{formatBytes(file.size)}</span>
                 </div>
                 <Button
                   variant="transparent"
-                  className="font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-focusRing transition-all duration-150 ease-in-out inline-flex items-center justify-center whitespace-nowrap p-2.5 hover:bg-red-200"
+                  className="font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-focusRing transition-all duration-150 ease-in-out inline-flex items-center justify-center whitespace-nowrap ml-1.5 hover:!bg-danger w-9/12"
                   aria-label={`Remove ${file.name}`}
+                  p="xs"
                   onClick={() => removeFile(file.name)}
                 >
-                  <Icon svgContent={X_SVG} size={14} />
+                  <Icon svgContent={X_SVG} size={16} />
                 </Button>
               </li>
             ))}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Center, Flex, Paper, Text, Textarea } from '@mantine/core'
+import { Box, Button, Center, Flex, Paper, Textarea } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
@@ -132,7 +132,7 @@ function UploadForm() {
   )
 
   return (
-    <Box className="flex justify-center items-center px-4 py-8">
+    <Box className="flex justify-center items-center px-4 py-8 mb-10">
       <CodeModal close={close} code={code} opened={opened} />
       <Paper
         className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
@@ -142,15 +142,15 @@ function UploadForm() {
       >
         <Box className="">
           <Center>
-            <Text fw={700} size="xl">
+            <h1 className='text-3xl font-semibold'>
               Upload your Files
-            </Text>
+            </h1>
           </Center>
           <form>
             <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
               <Textarea
                 label="Your message (optional)"
-                className="md:w-9/12 w-full"
+                className="w-full"
                 px="lg"
                 placeholder="Type your secret message here..."
                 key={form.key('text')}
@@ -158,7 +158,7 @@ function UploadForm() {
               />
               <Textarea
                 label="Your password (optional)"
-                className="md:w-9/12 w-full"
+                className="w-full"
                 px="lg"
                 placeholder="Secure your files with a password..."
                 key={form.key('password')}
@@ -166,12 +166,7 @@ function UploadForm() {
               />
               {/* <Dropbox files={files} setFiles={setFiles} /> */}
               <FileDropzone onFilesSelected={handleFileSelected} />
-              <Button
-                className="md:w-9/12 w-full"
-                type="submit"
-                onClick={handleSubmit}
-                loading={loading}
-              >
+              <Button className="w-full" type="submit" onClick={handleSubmit} loading={loading}>
                 Go 🚚
               </Button>
             </Flex>
