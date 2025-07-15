@@ -14,13 +14,13 @@ const links = [
 
 function NavBar() {
   const [openedDrawer, { open: openDrawer, close: closeDrawer }] = useDisclosure(false)
-  const [opened, { toggle }] = useDisclosure(false, {
+  const [opened, { toggle, close: closeBurger }] = useDisclosure(false, {
     onOpen: () => openDrawer(),
   })
 
   const handleClose = () => {
     closeDrawer()
-    toggle()
+    closeBurger()
   }
 
   const [active, setActive] = useState(links[0].link)
