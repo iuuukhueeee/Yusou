@@ -1,17 +1,27 @@
 'use client'
 
-import { Box, Button, Center, Flex, Paper, Textarea } from '@mantine/core'
+import {
+  Blockquote,
+  Box,
+  Button,
+  Center,
+  Flex,
+  Paper,
+  Text,
+  Textarea,
+  Tooltip,
+} from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
 import { useForm } from '@mantine/form'
 
-import CodeModal from '@/app/components/code-modal'
 import FileDropzone from '@/app/components/dropzone/file-dropzone'
 import { FileWithPreview } from '@/app/components/dropzone/types'
 import useUUID from '@/hooks/useUUID'
 import { FileWithPath } from '@mantine/dropzone'
 import { useMutation } from '@tanstack/react-query'
+import Link from 'next/link'
 import { FormEvent, useCallback, useState } from 'react'
 
 interface S3UrlResponse {
@@ -19,11 +29,12 @@ interface S3UrlResponse {
 }
 
 function UploadForm() {
-  const [opened, { open, close }] = useDisclosure(false)
+  // const [opened, { open, close }] = useDisclosure(false)
   const [code, setCode] = useState<string>('')
   const [files, setFiles] = useState<FileWithPath[]>([])
   const [loading, { open: openLoading, close: closeLoading }] = useDisclosure()
   const [error, setError] = useState<string | null>(null)
+  const [isCopied, setIsCopied] = useState(false)
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -105,7 +116,7 @@ function UploadForm() {
 
         if (shares) {
           setCode(shares.at(0).otp_code)
-          open()
+          // open()
         }
 
         form.setFieldValue('text', '')
@@ -133,7 +144,7 @@ function UploadForm() {
 
   return (
     <Box className="flex justify-center items-center px-4 py-8 mb-10">
-      <CodeModal close={close} code={code} opened={opened} />
+      {/* <CodeModal close={close} code={code} opened={opened} /> */}
       <Paper
         className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
         py="lg"
@@ -141,10 +152,31 @@ function UploadForm() {
         shadow="sm"
       >
         <Box className="">
-          <Center>
-            <h1 className='text-3xl font-semibold'>
-              Upload your Files
-            </h1>
+          <Center className="flex flex-col">
+            <h1 className="text-3xl font-semibold">Upload your Files</h1>
+            {code && (
+              <Box className="min-w-full" px="lg">
+                <Blockquote color="blue" mt="lg" className="!p-2">
+                  Your code to download files:{' '}
+                  <Tooltip
+                    label={isCopied ? 'Copied!' : 'Copy to Clipboard'}
+                    onClick={() => {
+                      navigator.clipboard.writeText(code)
+                      setIsCopied(true)
+                    }}
+                    onMouseLeave={() => setIsCopied(false)}
+                    className="inline cursor-pointer"
+                  >
+                    <Text>{code}</Text>
+                  </Tooltip>
+                  .Go to{' '}
+                  <Link className="text-amber-600" href="/get" prefetch>
+                    Get
+                  </Link>{' '}
+                  to download your files. You will be able to download within two days.
+                </Blockquote>
+              </Box>
+            )}
           </Center>
           <form>
             <Flex gap="md" justify="center" align="center" direction="column" wrap="wrap" mt="lg">
