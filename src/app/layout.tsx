@@ -5,7 +5,7 @@ import '@mantine/core/styles.css'
 import '@mantine/dropzone/styles.css'
 import { Notifications } from '@mantine/notifications'
 import '@mantine/notifications/styles.css'
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Script from 'next/script'
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
   creator: 'iuuukhueeee',
   publisher: 'iuuukhueeee',
   keywords: ['Sharing', 'Dropzone', 'Drag and drop'],
+  openGraph: {
+    title: '輸送 - Yusou',
+    description: '輸送 - Yusou. Effortless, Reliable, and Secure Cross-Platform File Sharing 🚚',
+    url: 'https://yusou.dev',
+    siteName: '輸送 - Yusou',
+  },
 }
 
 export default function RootLayout({
