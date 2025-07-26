@@ -157,7 +157,7 @@ function UploadForm() {
             {code && (
               <Box className="min-w-full" px="lg">
                 <Blockquote color="blue" mt="lg" className="!p-2">
-                  Your code to download files:{' '}
+                  <span className="font-bold">Your download code is: </span>
                   <Tooltip
                     label={isCopied ? 'Copied!' : 'Copy to Clipboard'}
                     onClick={() => {
@@ -167,13 +167,14 @@ function UploadForm() {
                     onMouseLeave={() => setIsCopied(false)}
                     className="inline cursor-pointer"
                   >
-                    <Text>{code}</Text>
+                    <Text fw={700}>{code}.</Text>
                   </Tooltip>
-                  .Go to{' '}
-                  <Link className="text-amber-600" href="/get" prefetch>
-                    Get
-                  </Link>{' '}
-                  to download your files. You will be able to download within two days.
+                  <Box>
+                    <Link className="text-amber-600" href="/get" prefetch>
+                      Get your files
+                    </Link>
+                    <span className="text-black"> — they&apos;ll be available for two days.</span>
+                  </Box>
                 </Blockquote>
               </Box>
             )}
