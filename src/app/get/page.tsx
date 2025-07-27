@@ -24,6 +24,7 @@ function ReceivePage() {
   })
 
   const handleSubmit = async (e: FormEvent) => {
+    setRetrievedFiles([])
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
     const turnstileRes = formData.get('cf-turnstile-response') as string
