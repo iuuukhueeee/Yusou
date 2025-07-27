@@ -7,16 +7,16 @@ import { Notifications } from '@mantine/notifications'
 import '@mantine/notifications/styles.css'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist_Mono } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 
 const theme = createTheme({})
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
+// const geistSans = Geist({
+//   variable: '--font-geist-sans',
+//   subsets: ['latin'],
+// })
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased !bg-slate-50`}>
+      <body className={`${geistMono.className} antialiased !bg-slate-50`}>
         <ReactQueryClientProvider>
           <MantineProvider theme={theme}>
             <Notifications />

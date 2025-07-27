@@ -153,7 +153,7 @@ function UploadForm() {
       >
         <Box className="">
           <Center className="flex flex-col">
-            <h1 className="text-3xl font-semibold">Upload your Files</h1>
+            <h1 className="text-3xl font-semibold my-4 md:text-4xl">Upload your Files</h1>
             {code && (
               <Box className="min-w-full" px="lg">
                 <Blockquote color="blue" mt="lg" className="!p-2">

@@ -77,7 +77,7 @@ function ReceivePage() {
         shadow="sm"
       >
         <Center>
-          <h1 className="text-3xl font-semibold">Get your Files</h1>
+          <h1 className="text-3xl font-semibold my-4 md:text-4xl">Get your Files</h1>
           <Text fw={700} size="xl"></Text>
         </Center>
         <form onSubmit={async (e) => await handleSubmit(e)} method="POST">
