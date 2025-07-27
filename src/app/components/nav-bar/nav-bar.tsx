@@ -43,7 +43,7 @@ function NavBar() {
     <>
       <header className={classes.header}>
         <Container size="md" className={classes.inner}>
-          <Link href="https://yusou.dev">
+          <Link href="https://yusou.dev" aria-label="Back to home">
             <YusouLogo size={40} />
           </Link>
 
