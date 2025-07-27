@@ -36,7 +36,7 @@ I always love open-source software, I take proud for what I built because I'm a 
 
 ## Get Started
 
-Simply visit [Yusou's website](https://yusou.vercel.app) or deploy it yourself. Start sharing instantly — no signups, no nonsense.
+Simply visit [Yusou's website](https://yusou.dev) or deploy it yourself. Start sharing instantly — no signups, no nonsense.
 
 ### Clone the project
 
